@@ -35,5 +35,31 @@ arm-none-eabi-objcopy -O binary -S build/cube.elf build/cube.bin
 ```
 
 **主要参考**：
-[用VS Code开发STM32（二）——编译](https://zhuanlan.zhihu.com/p/61538230)
-[用VS Code开发STM32（三）——调试](https://zhuanlan.zhihu.com/p/61541590)
+[用VS Code开发STM32（二）——编译](https://zhuanlan.zhihu.com/p/61538230)  
+[用VS Code开发STM32（三）——调试](https://zhuanlan.zhihu.com/p/61541590)  
+
+**调试工具**：
+
+插件——————Cortex Debug
+GDB——————arm-none-eabi-gdb
+GDB Server————JLinkGDBServer
+仿真器——————Jlink
+MCU——————STM32F407VE
+
+在debug界面点击`RUN AND DEBUG`可以看到加载过程，会卡在
+
+```
+Please check OUTPUT tab (Adapter Output) for output from JLinkGDBServer
+Launching server: "JLinkGDBServer" "-if" "jtag" "-port" "50000" "-swoport" "50001" "-telnetport" "50002" "-device" "STM32F407VE"
+Launching GDB: "arm-none-eabi-gdb" "-q" "--interpreter=mi2"
+Reading symbols from /home/yogurtsuee/stm32f4-vscode/cube/build/cube.elf...
+0x08000f82 in HAL_GetTick () at Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c:325
+325	  return uwTick;
+Not implemented stop reason (assuming exception): undefined
+Resetting target
+Resetting target
+```
+
+这里点一下`Continue`或者`F5`就可以看到程序开始运行并且可以随时暂停，点灯成功。
+
+
