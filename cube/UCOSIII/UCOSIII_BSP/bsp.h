@@ -475,4 +475,7 @@
 //如果修改芯片，需要修改此包含的库文件名
 #include "stm32f4xx_hal.h"
 
+void Bsp_Init(void);
+void SysTick_init(void);
+unsigned int BSP_CPU_ClkFreq(void);
 #endif

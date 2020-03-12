@@ -82,7 +82,8 @@ UCOSIII/uCOS-III/Source/os_task.c \
 UCOSIII/uCOS-III/Source/os_tick.c \
 UCOSIII/uCOS-III/Source/os_time.c \
 UCOSIII/uCOS-III/Source/os_tmr.c \
-UCOSIII/uCOS-III/Source/os_var.c 
+UCOSIII/uCOS-III/Source/os_var.c \
+UCOSIII/UCOSIII_BSP/led.c
 
 # ASM sources
 # 汇编启动文件 modified

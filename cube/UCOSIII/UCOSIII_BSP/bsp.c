@@ -936,6 +936,7 @@
 #define   BSP_MODULE
 #include  <bsp.h>
 #include  <os.h>
+#include  "includes.h"
 
 #define  BSP_REG_DEM_CR                           (*(CPU_REG32 *)0xE000EDFC)
 #define  BSP_REG_DWT_CR                           (*(CPU_REG32 *)0xE0001000)
@@ -1008,3 +1009,20 @@ CPU_INT64U  CPU_TS64_to_uSec (CPU_TS64  ts_cnts)
     return (ts_us);
 }
 #endif
+
+void Bsp_Init(void)
+{
+    SysTick_init();
+    Bsp_Led_Init();
+}
+
+void SysTick_init(void)
+{
+    // unsigned int cpu_clk_freq;
+    // uint32_t cpu_clk_freq;
+    // unsigned int cnts;
+    // cpu_clk_freq = BSP_CPU_ClkFreq();
+    // cnts = cpu_clk_freq / (unsigned int)OS_TICKS_PER_SEC;
+    // SysTick_Config(cnts);
+    SysTick_Config(CPU_TS32_to_uSec);
+}
