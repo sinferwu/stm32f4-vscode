@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "cpu_core.h": "c",
+        "lib_def.h": "c",
+        "os.h": "c"
+    }
+}

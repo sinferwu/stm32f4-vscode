@@ -4,14 +4,23 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/cube/**",
-                "${workspaceFolder}/cube/Drivers/**"
+                "${workspaceFolder}/cube/Drivers/**",
+                "${workspaceFolder}/cube/UCOSIII/uC-CPU",
+                "${workspaceFolder}/cube/UCOSIII/uC-CPU/ARM-Cortex-M4/GNU",
+                "${workspaceFolder}/cube/UCOSIII/uC-LIB",
+                "${workspaceFolder}/cube/UCOSIII/uCOS-III/Ports/ARM-Cortex-M4/Generic/GNU",
+                "${workspaceFolder}/cube/UCOSIII/uCOS-III/Source",
+                "${workspaceFolder}/cube/UCOSIII/UCOSIII_BSP",
+                "${workspaceFolder}/cube/UCOSIII/UCOSIII_CONFIG",
+                "/usr/include",
+                "${workspaceFolder}cube/Drivers/STM32F4xx_HAL_Driver/Inc"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE",
                 "USE_HAL_DRIVER",
-                "STM32F407xx"  
+                "STM32F407xx"
             ],
             "compilerPath": "/usr/bin/gcc-arm-none-eabi-9-2019-q4-major/arm-none-eabi-gcc",
             "cStandard": "c11",

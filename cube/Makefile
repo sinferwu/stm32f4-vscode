@@ -35,6 +35,7 @@ BUILD_DIR = build
 # source
 ######################################
 # C sources
+# C 源码路径 modified
 C_SOURCES =  \
 Src/main.c \
 Src/stm32f4xx_it.c \
@@ -54,19 +55,53 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c \
-Src/system_stm32f4xx.c  
+Src/system_stm32f4xx.c  \
+UCOSIII/uC-CPU/cpu_core.c \
+UCOSIII/uC-CPU/ARM-Cortex-M4/GNU/cpu_c.c \
+UCOSIII/uC-LIB/lib_ascii.c \
+UCOSIII/uC-LIB/lib_math.c \
+UCOSIII/uC-LIB/lib_mem.c \
+UCOSIII/uC-LIB/lib_str.c \
+UCOSIII/uCOS-III/Ports/ARM-Cortex-M4/Generic/GNU/os_cpu_c.c \
+UCOSIII/UCOSIII_BSP/bsp.c \
+UCOSIII/UCOSIII_CONFIG/os_app_hooks.c \
+UCOSIII/uCOS-III/Source/os_cfg_app.c \
+UCOSIII/uCOS-III/Source/os_core.c \
+UCOSIII/uCOS-III/Source/os_dbg.c \
+UCOSIII/uCOS-III/Source/os_flag.c \
+UCOSIII/uCOS-III/Source/os_int.c \
+UCOSIII/uCOS-III/Source/os_mem.c \
+UCOSIII/uCOS-III/Source/os_msg.c \
+UCOSIII/uCOS-III/Source/os_mutex.c \
+UCOSIII/uCOS-III/Source/os_pend_multi.c \
+UCOSIII/uCOS-III/Source/os_prio.c \
+UCOSIII/uCOS-III/Source/os_q.c \
+UCOSIII/uCOS-III/Source/os_sem.c \
+UCOSIII/uCOS-III/Source/os_stat.c \
+UCOSIII/uCOS-III/Source/os_task.c \
+UCOSIII/uCOS-III/Source/os_tick.c \
+UCOSIII/uCOS-III/Source/os_time.c \
+UCOSIII/uCOS-III/Source/os_tmr.c \
+UCOSIII/uCOS-III/Source/os_var.c 
 
 # ASM sources
+# 汇编启动文件 modified
 ASM_SOURCES =  \
-startup_stm32f407xx.s
+startup_stm32f407xx.s \
+UCOSIII/uC-CPU/ARM-Cortex-M4/GNU/cpu_a.s \
+UCOSIII/uC-LIB/Ports/ARM-Cortex-M4/GNU/lib_mem_a.s \
+UCOSIII/uCOS-III/Ports/ARM-Cortex-M4/Generic/GNU/os_cpu_a.s
+
 
 
 #######################################
 # binaries
 #######################################
+# 指定交叉编译器
 PREFIX = arm-none-eabi-
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
+# gcc编译器的二进制文件路径可以通过make命令设定（make GCC_PATH=xxx），也可以通过添加环境变量定义
 ifdef GCC_PATH
 CC = $(GCC_PATH)/$(PREFIX)gcc
 AS = $(GCC_PATH)/$(PREFIX)gcc -x assembler-with-cpp
@@ -94,6 +129,7 @@ FPU = -mfpu=fpv4-sp-d16
 FLOAT-ABI = -mfloat-abi=hard
 
 # mcu
+# 目标芯片特有编译指令
 MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 
 # macros for gcc
@@ -109,19 +145,28 @@ C_DEFS =  \
 # AS includes
 AS_INCLUDES = 
 
-# C includes
+# C includes modified
 C_INCLUDES =  \
 -IInc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
 -IDrivers/CMSIS/Include \
--IDrivers/CMSIS/Include
+-IDrivers/CMSIS/Include \
+-IUCOSIII/uC-CPU \
+-IUCOSIII/uC-CPU/ARM-Cortex-M4/GNU \
+-IUCOSIII/uC-LIB \
+-IUCOSIII/uC-LIB/Ports/ARM-Cortex-M4/GNU \
+-IUCOSIII/uCOS-III/Ports/ARM-Cortex-M4/Generic/GNU \
+-IUCOSIII/UCOSIII_BSP \
+-IUCOSIII/UCOSIII_CONFIG \
+-IUCOSIII/uCOS-III/Source
 
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
+# C编译标志
 CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
 ifeq ($(DEBUG), 1)
@@ -137,21 +182,28 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 # LDFLAGS
 #######################################
 # link script
+# 链接脚本文件 stm32
 LDSCRIPT = STM32F407VETx_FLASH.ld
 
+# 静态库名称
 # libraries
-LIBS = -lc -lm -lnosys 
+LIBS = -lc -lm -lnosys
+# 搜索静态库并链接
+
 LIBDIR = 
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
 # default action: build all
+# 默认动作： build all
 all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin
 
 
 #######################################
 # build the application
+# 编译应用
 #######################################
 # list of objects
+# 目标文件规则
 OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
 vpath %.c $(sort $(dir $(C_SOURCES)))
 # list of ASM program objects
@@ -164,6 +216,7 @@ $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR)
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
 	$(AS) -c $(CFLAGS) $< -o $@
 
+# $@--目标文件，$^--所有的依赖文件，$<--第一个依赖文件
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 	$(SZ) $@
@@ -185,6 +238,7 @@ clean:
   
 #######################################
 # dependencies
+# 依赖文件
 #######################################
 -include $(wildcard $(BUILD_DIR)/*.d)
 
