@@ -4,7 +4,7 @@
  
 ## Jlink
 
-[jlink](https://www.segger.com/downloads/jlink#J-LinkSoftwareAndDocumentationPackBeta)
+[jlink](https://www.segger.com/downloads/jlink#J-LinkSoftwareAndDocumentationPackBeta)下载地址
 
 用`dpkg -i xxx.deb`安装即可，安装完成后终端输入`JLinkExe`可以检查安装是否成功。
 
@@ -34,17 +34,17 @@ arm-none-eabi-objcopy -O ihex build/cube.elf build/cube.hex
 arm-none-eabi-objcopy -O binary -S build/cube.elf build/cube.bin
 ```
 
-**主要参考**：
+**主要参考**：  
 [用VS Code开发STM32（二）——编译](https://zhuanlan.zhihu.com/p/61538230)  
 [用VS Code开发STM32（三）——调试](https://zhuanlan.zhihu.com/p/61541590)  
 
-**调试工具**：
+**调试工具**：  
 
-插件——————Cortex Debug
-GDB——————arm-none-eabi-gdb
-GDB Server————JLinkGDBServer
-仿真器——————Jlink
-MCU——————STM32F407VE
+插件——————Cortex Debug  
+GDB——————arm-none-eabi-gdb  
+GDB Server————JLinkGDBServer  
+仿真器——————Jlink  
+MCU——————STM32F407VE  
 
 在debug界面点击`RUN AND DEBUG`可以看到加载过程，会卡在
 
