@@ -155,10 +155,7 @@ g_pfnVectors:
   .word  0
   .word  OS_CPU_PendSVHandler
   .word  OS_CPU_SysTickHandler
-  /*
-  .word  PendSV_Handler
-  .word  SysTick_Handler
-  */
+  
   /* External Interrupts */
   .word     WWDG_IRQHandler                   /* Window WatchDog              */                                        
   .word     PVD_IRQHandler                    /* PVD through EXTI Line detection */                        
@@ -276,15 +273,8 @@ g_pfnVectors:
    .thumb_set OS_CPU_PendSVHandler,Default_Handler
 
    .weak      OS_CPU_SysTickHandler
-   .thumb_set OS_CPU_SysTickHandler,Default_Handler   
+   .thumb_set OS_CPU_SysTickHandler,Default_Handler              
 
-/*
-*  .weak      PendSV_Handler
-*  .thumb_set PendSV_Handler,Default_Handler
-*
-*  .weak      SysTick_Handler
-*  .thumb_set SysTick_Handler,Default_Handler              
-*/
    .weak      WWDG_IRQHandler                   
    .thumb_set WWDG_IRQHandler,Default_Handler      
                   

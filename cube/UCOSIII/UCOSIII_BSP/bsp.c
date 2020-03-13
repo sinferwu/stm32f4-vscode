@@ -936,6 +936,7 @@
 #define   BSP_MODULE
 #include  <bsp.h>
 #include  <os.h>
+// #include  "led.h"
 #include  "includes.h"
 
 #define  BSP_REG_DEM_CR                           (*(CPU_REG32 *)0xE000EDFC)
@@ -1010,19 +1011,75 @@ CPU_INT64U  CPU_TS64_to_uSec (CPU_TS64  ts_cnts)
 }
 #endif
 
+void SystemClock_Config(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+  /** Configure the main internal regulator output voltage 
+  */
+  __HAL_RCC_PWR_CLK_ENABLE();
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+  /** Initializes the CPU, AHB and APB busses clocks 
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    // Error_Handler();
+  }
+  /** Initializes the CPU, AHB and APB busses clocks 
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  {
+    // Error_Handler();
+  }
+}
+
 void Bsp_Init(void)
 {
+    HAL_Init();
+    SystemClock_Config();
     SysTick_init();
     Bsp_Led_Init();
 }
 
 void SysTick_init(void)
 {
-    // unsigned int cpu_clk_freq;
-    // uint32_t cpu_clk_freq;
-    // unsigned int cnts;
-    // cpu_clk_freq = BSP_CPU_ClkFreq();
-    // cnts = cpu_clk_freq / (unsigned int)OS_TICKS_PER_SEC;
-    // SysTick_Config(cnts);
-    SysTick_Config(CPU_TS32_to_uSec);
+    /*
+      系统滴答定时器
+    */
+    // SysTick_Config(CPU_TS32_to_uSec);
+    unsigned int cpu_clk_freq;
+    unsigned int cnts;
+    cpu_clk_freq = BSP_CPU_ClkFreq();
+    cnts = cpu_clk_freq / (unsigned int)OS_TICKS_PER_SEC;
+    SysTick_Config(cnts);
+}
+
+
+void  Bsp_Tick_init (void)
+{
+    CPU_INT32U  cpu_clk_freq;
+    CPU_INT32U  cnts;
+    
+    
+    cpu_clk_freq = BSP_CPU_ClkFreq();                           /* Determine SysTick reference freq.                    */
+    
+#if (OS_VERSION >= 30000u)
+    cnts = (cpu_clk_freq / (CPU_INT32U)OSCfg_TickRate_Hz);      /* Determine nbr SysTick increments                     */
+#else
+    cnts = (cpu_clk_freq / (CPU_INT32U)OS_TICKS_PER_SEC);       /* Determine nbr SysTick increments.                    */
+#endif
+    
+    OS_CPU_SysTickInit(cnts);                                   /* Init uC/OS periodic time src (SysTick).              */
 }

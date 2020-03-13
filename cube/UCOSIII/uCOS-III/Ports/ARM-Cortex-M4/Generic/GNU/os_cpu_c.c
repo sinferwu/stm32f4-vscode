@@ -413,6 +413,7 @@ void  OSTimeTickHook (void)
 */
 
 void  OS_CPU_SysTickHandler (void)
+// void  SysTick_Handler (void)
 {
     CPU_SR_ALLOC();
 

@@ -13,6 +13,7 @@
             "executable": "${workspaceFolder}/cube/build/cube.elf",
             "device": "STM32F407VE",
             "interface": "jtag",
+            // "interface": "swd",
             "preLaunchTask": "build",//先运行Build任务
             "ipAddress": null,
             "serialNumber": null,

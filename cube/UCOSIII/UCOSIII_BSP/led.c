@@ -31,15 +31,15 @@ static void Bsp_Led_Gpio_Init()
 void  Led_On(void)
 {
     // GPIO_SetBits(GPIOE, GPIO_PIN_6 | GPIO_PIN_7);
-    HAL_GPIO_WritePin (GPIOA,GPIO_PIN_6,GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_7,GPIO_PIN_SET);
+    HAL_GPIO_WritePin (GPIOA,GPIO_PIN_6,GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_7,GPIO_PIN_RESET);
 }
 
 void  Led_Off(void)
 {
     // GPIO_ResetBits(GPIOE, GPIO_PIN_6 | GPIO_PIN_7);
-    HAL_GPIO_WritePin (GPIOA,GPIO_PIN_6,GPIO_PIN_SET);
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_7,GPIO_PIN_RESET);
+    HAL_GPIO_WritePin (GPIOA,GPIO_PIN_6,GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_7,GPIO_PIN_SET);
 }
 
 void Bsp_Led_Init(void)

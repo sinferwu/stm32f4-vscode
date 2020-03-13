@@ -153,9 +153,11 @@ void  OSIntCtxSw           (void);
 void  OSStartHighRdy       (void);
 
 void  OS_CPU_PendSVHandler (void);
+// void  PendSVHandler (void);
 
 
 void  OS_CPU_SysTickHandler(void);
+// void  SysTick_Handler(void);
 void  OS_CPU_SysTickInit   (CPU_INT32U  cnts);
 
 #if (OS_CPU_ARM_FP_EN == DEF_ENABLED)

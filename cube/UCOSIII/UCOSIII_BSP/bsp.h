@@ -471,6 +471,7 @@
 #include <cpu_core.h>
 #include <lib_def.h>
 #include <lib_ascii.h>
+#include "led.h"
 
 //如果修改芯片，需要修改此包含的库文件名
 #include "stm32f4xx_hal.h"
@@ -478,4 +479,7 @@
 void Bsp_Init(void);
 void SysTick_init(void);
 unsigned int BSP_CPU_ClkFreq(void);
+void SystemClock_Config(void);
+void Bsp_Led_Init();
+void  Bsp_Tick_init (void);
 #endif

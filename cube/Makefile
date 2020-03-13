@@ -84,6 +84,7 @@ UCOSIII/uCOS-III/Source/os_time.c \
 UCOSIII/uCOS-III/Source/os_tmr.c \
 UCOSIII/uCOS-III/Source/os_var.c \
 UCOSIII/UCOSIII_BSP/led.c
+# UCOSIII/UCOSIII_BSP/retarget.c
 
 # ASM sources
 # 汇编启动文件 modified
